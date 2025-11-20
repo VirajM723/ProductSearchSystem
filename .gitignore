@@ -1,2 +1,17 @@
+# Dependencies
 node_modules/
-.angular/cache
+
+# Angular cache
+.angular/
+
+# Build output
+dist/
+out/
+
+# Temporary files
+temp/
+tmp/
+
+# IDE files
+.vscode/
+.DS_Store
