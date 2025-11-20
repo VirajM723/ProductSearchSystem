@@ -1,4 +1,4 @@
-\# discsCatalog
+# discsCatalog
 
 A Product search supporting E-commerce website using the MEAN stack and Elasticsearch
 
@@ -6,7 +6,7 @@ A Product search supporting E-commerce website using the MEAN stack and Elastics
 
 
 
-\# Instructions to run
+# Instructions to run
 
 
 
@@ -27,4 +27,5 @@ Finally, to run the node server, just run 'npm start' or 'node path/to/bin/www',
 
 
 The versions tested by me are: MongoDB v8.2.1, Elasticsearch v9.2.0, Node.js v14.21.3
+
 
