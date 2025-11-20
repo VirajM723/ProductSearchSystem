@@ -1,0 +1,37 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>🛍️ Product Search & Management System</h1>
+    <p>MEAN Stack with Elasticsearch 9.2.0</p>
+  </header>
+
+  <main class="app-main">
+    <!--  Search Bar -->
+    <app-search-bar (search)="onSearch($event)"></app-search-bar>
+
+    <!--  Loading indicator -->
+    <div *ngIf="loading" class="loading">Loading...</div>
+
+    <!--  Product List -->
+    <div *ngIf="!loading && products.length > 0; else noProducts">
+      <div class="product-list">
+        <div class="product-card" *ngFor="let product of products">
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <p><strong>Price:</strong> ₹{{ product.price }}</p>
+          <p><strong>Category:</strong> {{ product.category }}</p>
+          <p><strong>Brand:</strong> {{ product.brand }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noProducts>
+      <p>No products found.</p>
+    </ng-template>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      Powered by MongoDB 8.2.1 | Elasticsearch 9.2.0 | Angular 17 | Node.js 20.0.0
+    </p>
+  </footer>
+</div>
