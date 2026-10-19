@@ -15,3 +15,11 @@ tmp/
 # IDE files
 .vscode/
 .DS_Store
+
+# Local env
+.env
+backend/.env
+
+# Test output
+frontend/test-results/
+frontend/playwright-report/
