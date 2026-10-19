@@ -63,7 +63,7 @@ import { PricePipe } from '../../shared/price.pipe';
 
     <section class="group">
       <label class="check">
-        <input type="checkbox" [checked]="params.inStock" (change)="changed.emit({ inStock: !params.inStock })" />
+        <input type="checkbox" [checked]="params.inStock" (change)="changed.emit({ inStock: params.inStock ? undefined : true })" />
         <span class="text">In stock only</span>
         @if (result) {
           <span class="count">{{ result.facets.inStock }}</span>

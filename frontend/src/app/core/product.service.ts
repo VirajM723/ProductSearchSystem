@@ -18,7 +18,7 @@ export class ProductService {
     if (params.brand?.length) query = query.set('brand', params.brand.join(','));
     if (params.minPrice != null) query = query.set('minPrice', params.minPrice);
     if (params.maxPrice != null) query = query.set('maxPrice', params.maxPrice);
-    if (params.inStock) query = query.set('inStock', 'true');
+    if (params.inStock !== undefined) query = query.set('inStock', String(params.inStock));
     if (params.sort) query = query.set('sort', params.sort);
     if (params.page) query = query.set('page', params.page);
     if (params.limit) query = query.set('limit', params.limit);
@@ -61,9 +61,11 @@ export class ProductService {
 // Pulls a readable message out of whatever the API (or the network) gave us.
 export function errorMessage(err: unknown): string {
   if (err instanceof HttpErrorResponse) {
-    if (err.status === 0) return "Can't reach the server. Is the API running?";
     const body = err.error as ApiError | null;
     if (body?.error) return body.error;
+    // 0 = network error. A proxy in front of a stopped API answers with a
+    // gateway error or a bare 500 that has no JSON body.
+    if (err.status === 0 || err.status >= 500) return "Can't reach the store right now. Please try again in a moment.";
     return `Request failed (${err.status})`;
   }
   return 'Something went wrong';

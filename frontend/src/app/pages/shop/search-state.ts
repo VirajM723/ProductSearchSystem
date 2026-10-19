@@ -32,7 +32,7 @@ export function fromQuery(map: ParamMap): SearchParams {
     brand: list(map.get('brand')),
     minPrice: num(map.get('min')),
     maxPrice: num(map.get('max')),
-    inStock: map.get('stock') === '1',
+    inStock: map.get('stock') === '1' ? true : undefined,
     sort: sort && sort in SORT_LABELS ? sort : undefined,
     page: Number.isInteger(page) && page > 1 ? page : 1,
     limit: PAGE_SIZE

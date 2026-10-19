@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    // The shop page sets its own title based on the search.
     path: '',
-    title: 'Common Goods',
     loadComponent: () => import('./pages/shop/shop.page').then((m) => m.ShopPage)
   },
   {

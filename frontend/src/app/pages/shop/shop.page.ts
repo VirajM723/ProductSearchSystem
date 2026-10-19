@@ -91,7 +91,7 @@ export class ShopPage {
             : `Up to ${fmt(p.maxPrice!)}`;
       chips.push({ label, remove: { minPrice: null, maxPrice: null } });
     }
-    if (p.inStock) chips.push({ label: 'In stock', remove: { inStock: false } });
+    if (p.inStock) chips.push({ label: 'In stock', remove: { inStock: undefined } });
     return chips;
   });
 
