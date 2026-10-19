@@ -54,10 +54,10 @@ type Option =
               (mouseenter)="active.set(i)">
               @switch (option.kind) {
                 @case ('query') {
-                  <span class="muted">Search for</span>&nbsp;<strong>“{{ option.label }}”</strong>
+                  <span><span class="muted">Search for</span> <strong>“{{ option.label }}”</strong></span>
                 }
                 @case ('category') {
-                  <span class="muted">Browse</span>&nbsp;<strong>{{ option.label }}</strong>
+                  <span><span class="muted">Browse</span> <strong>{{ option.label }}</strong></span>
                   <span class="count">{{ option.count }}</span>
                 }
                 @case ('product') {
@@ -159,7 +159,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
         const q = this.router.parseUrl(this.router.url).queryParams['q'] ?? '';
         const onShop = this.router.url === '/' || this.router.url.startsWith('/?');
-        this.text.set(onShop ? q : this.text());
+        this.text.set(onShop ? q : '');
         this.open.set(false);
       })
     );

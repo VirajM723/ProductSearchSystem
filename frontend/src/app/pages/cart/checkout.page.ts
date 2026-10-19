@@ -75,7 +75,7 @@ import { ProductArtComponent } from '../../shared/product-art.component';
             <fieldset>
               <legend>Payment</legend>
               <label class="check option">
-                <input type="radio" checked disabled />
+                <input type="radio" name="payment" checked />
                 <span>Cash or UPI on delivery</span>
               </label>
             </fieldset>
