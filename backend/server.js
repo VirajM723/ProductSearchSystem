@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const app = require('./app');
 const connectDB = require('./config/database');
 const searchIndex = require('./services/elasticsearchService');
+const { checkAuthConfig } = require('./config/auth');
 
 const PORT = process.env.PORT || 3000;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -36,6 +37,7 @@ function watchForStaleIndex() {
 }
 
 async function start() {
+  checkAuthConfig();
   await connectDB();
   syncSearchIndex();
   watchForStaleIndex();

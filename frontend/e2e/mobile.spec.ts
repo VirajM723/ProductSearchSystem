@@ -15,7 +15,7 @@ test('filters open in a drawer on small screens', async ({ page }) => {
 });
 
 test('no horizontal scrolling on the main pages', async ({ page }) => {
-  for (const url of ['/', '/?q=lamp', '/manage', '/manage/new', '/checkout']) {
+  for (const url of ['/', '/?q=lamp', '/login', '/checkout']) {
     await page.goto(url);
     await page.waitForLoadState('networkidle');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

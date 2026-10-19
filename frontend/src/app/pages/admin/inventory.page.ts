@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from '../../core/auth.service';
 import { Product, SearchResult } from '../../core/models';
 import { ProductService, errorMessage } from '../../core/product.service';
 import { ToastService } from '../../core/toast.service';
@@ -31,6 +33,7 @@ import { ProductArtComponent } from '../../shared/product-art.component';
             {{ reindexing() ? 'Rebuilding…' : 'Rebuild index' }}
           </button>
           <a routerLink="/manage/new" class="btn btn-primary">New product</a>
+          <button type="button" class="btn btn-ghost" (click)="signOut()">Sign out</button>
         </div>
       </header>
 
@@ -160,6 +163,8 @@ import { ProductArtComponent } from '../../shared/product-art.component';
 export class InventoryPage implements OnInit {
   private api = inject(ProductService);
   private toast = inject(ToastService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   readonly result = signal<SearchResult | null>(null);
   readonly loading = signal(false);
@@ -247,6 +252,13 @@ export class InventoryPage implements OnInit {
         this.toast.error(errorMessage(err));
         this.checkHealth();
       }
+    });
+  }
+
+  signOut(): void {
+    this.auth.logout().subscribe(() => {
+      this.toast.show('Signed out');
+      this.router.navigate(['/']);
     });
   }
 

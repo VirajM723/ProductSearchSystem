@@ -17,7 +17,8 @@ A small e-commerce store built on the MEAN stack, with Elasticsearch handling pr
 - Bag drawer (kept in local storage), free delivery threshold and a cash on delivery checkout
 - Works on phones; filters slide in from the side
 
-**Inventory**
+**Inventory** (admin only)
+- Staff sign-in with a hashed password and a secure session cookie
 - Table of products with quick filtering and stock status
 - Create and edit form with validation, plus a live preview of the product card
 - Delete with a confirm step
@@ -28,6 +29,8 @@ A small e-commerce store built on the MEAN stack, with Elasticsearch handling pr
 - MongoDB is the source of truth; every write is pushed to Elasticsearch straight away
 - If Elasticsearch goes down, search falls back to MongoDB and the shop keeps working. Writes made in the meantime are synced once it's back
 - Reindexing builds a fresh index and swaps an alias over, so search never sees a half-built index
+- Every change to products needs an admin session; reading and searching are public
+- Security headers, rate limits, and a lockout after 5 wrong passwords
 
 ## Screenshots
 
@@ -41,6 +44,8 @@ A small e-commerce store built on the MEAN stack, with Elasticsearch handling pr
 | Bag drawer | Checkout |
 | ![Inventory](docs/screenshots/inventory.png) | ![Product editor](docs/screenshots/editor.png) |
 | Inventory | Adding a product |
+| ![Staff sign in](docs/screenshots/login.png) | |
+| Staff sign in | |
 
 <p>
   <img src="docs/screenshots/mobile.png" width="260" alt="Mobile shop view" />
@@ -72,9 +77,12 @@ That starts MongoDB on `27017` and Elasticsearch on `9200` (security turned off,
 cd backend
 cp .env.example .env
 npm install
-npm run seed      # loads 40 sample products and builds the index
-npm start         # http://localhost:3000
+npm run hash-password   # choose an admin password, paste the output into .env
+npm run seed            # loads 40 sample products and builds the index
+npm start               # http://localhost:3000
 ```
+
+Sign in at `http://localhost:4200/login` with `ADMIN_USERNAME` and the password you chose. Without those settings the shop still works, but nobody can edit products.
 
 `npm run seed` leaves existing data alone. Use `npm run seed -- --fresh` to wipe and reload.
 
@@ -96,25 +104,35 @@ The dev server proxies `/api` to `localhost:3000` (see `frontend/proxy.conf.json
 | `MONGODB_URI` | none, required | MongoDB connection string |
 | `ELASTICSEARCH_NODE` | `http://localhost:9200` | Elasticsearch URL |
 | `ES_INDEX` | `products` | Name of the index alias |
-| `CORS_ORIGIN` | any | Comma separated origins allowed to call the API |
+| `ELASTICSEARCH_USERNAME`, `ELASTICSEARCH_PASSWORD` | none | When Elasticsearch has security on |
+| `ELASTICSEARCH_API_KEY` | none | Alternative to username and password |
+| `ELASTICSEARCH_CA_CERT` | none | Path to a CA file for Elasticsearch over https |
+| `ADMIN_USERNAME` | none | Admin username |
+| `ADMIN_PASSWORD_HASH` | none | From `npm run hash-password` |
+| `JWT_SECRET` | none | From `npm run hash-password` (signs session cookies) |
+| `SESSION_HOURS` | `8` | How long an admin stays signed in |
+| `CORS_ORIGIN` | any in dev, none in production | Comma separated origins allowed to call the API from another domain |
 
 ## API
 
-All routes are under `/api`.
+All routes are under `/api`. Routes marked **admin** need an admin session (sign in first; the session is kept in a cookie).
 
 | Method | Route | Notes |
 |---|---|---|
 | GET | `/health` | Status of MongoDB and Elasticsearch |
+| POST | `/auth/login` | `{ "username", "password" }`. Sets the session cookie |
+| GET | `/auth/me` | `{ "username" }`, or `null` when not signed in |
+| POST | `/auth/logout` | Clears the session |
 | GET | `/products` | Paged list, newest first. `?page=&limit=` |
 | GET | `/products/search` | Full search, see below |
 | GET | `/products/suggest?q=` | Autocomplete: up to 6 products and 3 categories |
 | GET | `/products/meta` | Distinct categories and brands |
 | GET | `/products/:id` | One product |
-| POST | `/products` | Create |
-| PUT | `/products/:id` | Replace (fields left out go back to defaults) |
-| PATCH | `/products/:id` | Update only the fields sent |
-| DELETE | `/products/:id` | Delete |
-| POST | `/products/reindex` | Rebuild the search index from MongoDB |
+| POST | `/products` | **admin** Create |
+| PUT | `/products/:id` | **admin** Replace (fields left out go back to defaults) |
+| PATCH | `/products/:id` | **admin** Update only the fields sent |
+| DELETE | `/products/:id` | **admin** Delete |
+| POST | `/products/reindex` | **admin** Rebuild the search index from MongoDB |
 
 ### Search parameters
 
@@ -172,7 +190,7 @@ cd backend
 npm test
 ```
 
-They cover CRUD, validation, every search option, pagination limits, junk and injection-style input, facets, autocomplete, reindexing, and the fallback when Elasticsearch is down.
+They cover sign-in and the protected routes (including forged cookies and the lockout), CRUD, validation, every search option, pagination limits, junk and injection-style input, facets, autocomplete, reindexing, and the fallback when Elasticsearch is down.
 
 The browser tests need the backend running with the sample data loaded:
 
@@ -181,7 +199,13 @@ cd frontend
 npm run e2e
 ```
 
-They go through searching, autocomplete, filters, sorting, paging, the back button, the bag, checkout validation, creating, editing and deleting a product, and the mobile layout.
+To run the same tests against a live site: `E2E_BASE_URL=https://your-domain E2E_ADMIN_PASSWORD=... npm run e2e`. Note that this creates and then deletes a test product.
+
+## Deploying
+
+[docs/DEPLOY-ORACLE.md](docs/DEPLOY-ORACLE.md) walks through putting the whole thing on a free Oracle Cloud VM, step by step: MongoDB and Elasticsearch with passwords and no public ports, automatic HTTPS through Caddy, backups and updates. Everything runs from `docker-compose.prod.yml`.
+
+They use the admin login from `backend/.env` (set `E2E_ADMIN_PASSWORD` if yours isn't `local-admin-pass`). They go through signing in and out, searching, autocomplete, filters, sorting, paging, the back button, the bag, checkout validation, creating, editing and deleting a product, and the mobile layout.
 
 ## Project structure
 
@@ -192,12 +216,15 @@ backend/
   config/
     database.js             MongoDB connection with retries
     elasticsearch.js        Client, index settings and mapping
+  middleware/auth.js        Admin session check
   models/Product.js         Mongoose schema and validation
   routes/products.js        REST routes
+  routes/auth.js            Sign in, sign out
   services/
     elasticsearchService.js Indexing, search, suggestions, reindex
     databaseSearch.js       MongoDB fallback search
   scripts/seed.js
+  scripts/hash-password.js  Makes the admin password hash
   data/products.json        Sample catalogue
   tests/
 
@@ -209,13 +236,15 @@ frontend/
       shop/                 Listing, filters, URL state
       product/              Product page
       cart/                 Bag drawer and checkout
-      admin/                Inventory and product editor
+      admin/                Sign in, inventory and product editor
   e2e/                      Playwright tests
 
+deploy/                     Caddyfile and first-run scripts for production
 docker-compose.yml          MongoDB + Elasticsearch for local dev
+docker-compose.prod.yml     Everything, for a production server
 ```
 
 ## Notes
 
 - Checkout is a demo. It validates the form and shows a confirmation, but no order is stored and no payment is taken.
-- There's no login, so anyone who can reach the app can use the inventory screen. Put it behind auth before deploying anywhere public.
+- There's a single admin account, set through environment variables. There are no customer accounts.

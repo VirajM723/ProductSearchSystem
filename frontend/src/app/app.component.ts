@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from './core/auth.service';
 import { CartService } from './core/cart.service';
 import { ToastService } from './core/toast.service';
 import { CartDrawerComponent } from './pages/cart/cart-drawer.component';
@@ -25,7 +26,9 @@ import { SearchBoxComponent } from './shared/search-box.component';
 
         <nav class="nav" aria-label="Main">
           <a routerLink="/" routerLinkActive="current" [routerLinkActiveOptions]="{ exact: true }">Shop</a>
-          <a routerLink="/manage" routerLinkActive="current">Manage</a>
+          @if (auth.isAdmin()) {
+            <a routerLink="/manage" routerLinkActive="current">Manage</a>
+          }
           <button type="button" class="bag" (click)="cart.open.set(true)" [attr.aria-label]="'Open bag, ' + cart.count() + ' items'">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
             <span>Bag</span>
@@ -62,8 +65,12 @@ import { SearchBoxComponent } from './shared/search-box.component';
         </div>
         <div>
           <p class="heading">Store</p>
-          <a routerLink="/manage">Inventory</a>
-          <a routerLink="/manage/new">Add a product</a>
+          @if (auth.isAdmin()) {
+            <a routerLink="/manage">Inventory</a>
+            <a routerLink="/manage/new">Add a product</a>
+          } @else {
+            <a routerLink="/login">Staff sign in</a>
+          }
         </div>
       </div>
       <div class="shell legal">
@@ -163,7 +170,13 @@ import { SearchBoxComponent } from './shared/search-box.component';
   `]
 })
 export class AppComponent {
+  readonly auth = inject(AuthService);
   readonly cart = inject(CartService);
+
+  constructor() {
+    // Find out if there's an admin session so the nav can show Manage.
+    this.auth.check().subscribe();
+  }
   readonly toasts = inject(ToastService);
   readonly year = new Date().getFullYear();
 }

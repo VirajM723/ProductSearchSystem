@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Product = require('../models/Product');
 const searchIndex = require('../services/elasticsearchService');
 const databaseSearch = require('../services/databaseSearch');
+const { requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -110,7 +111,7 @@ router.get('/meta', handle(async (req, res) => {
   res.json({ categories: sorted(categories), brands: sorted(brands) });
 }));
 
-router.post('/reindex', handle(async (req, res) => {
+router.post('/reindex', requireAdmin, handle(async (req, res) => {
   try {
     const count = await searchIndex.reindexAll();
     res.json({ message: `Reindexed ${count} products`, count });
@@ -124,7 +125,7 @@ router.get('/:id', handle(async (req, res) => {
   res.json(product);
 }));
 
-router.post('/', handle(async (req, res) => {
+router.post('/', requireAdmin, handle(async (req, res) => {
   const product = await Product.create(pickEditable(req.body));
   await syncIndex(() => searchIndex.indexProduct(product), req);
   res.status(201).json(withWarning(req, product.toJSON()));
@@ -149,10 +150,10 @@ async function update(req, res, replace) {
   res.json(withWarning(req, product.toJSON()));
 }
 
-router.put('/:id', handle((req, res) => update(req, res, true)));
-router.patch('/:id', handle((req, res) => update(req, res, false)));
+router.put('/:id', requireAdmin, handle((req, res) => update(req, res, true)));
+router.patch('/:id', requireAdmin, handle((req, res) => update(req, res, false)));
 
-router.delete('/:id', handle(async (req, res) => {
+router.delete('/:id', requireAdmin, handle(async (req, res) => {
   const product = await findOr404(req.params.id);
   await product.deleteOne();
   await syncIndex(() => searchIndex.removeProduct(product._id), req);

@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test';
+import { signIn } from './admin';
 
 const unique = `Test Shelf ${Date.now().toString(36)}`;
 
 test.describe.serial('managing products', () => {
+  test.beforeEach(async ({ page }) => signIn(page));
+
   test('inventory lists products and shows search status', async ({ page }) => {
     await page.goto('/manage');
     await expect(page.getByRole('heading', { name: 'Inventory' })).toBeVisible();

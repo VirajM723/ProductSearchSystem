@@ -1,7 +1,27 @@
+const fs = require('fs');
 const { Client } = require('@elastic/elasticsearch');
+
+// Credentials: an API key, or a username and password. Leave both unset for
+// a local cluster with security turned off.
+function authOptions() {
+  if (process.env.ELASTICSEARCH_API_KEY) return { apiKey: process.env.ELASTICSEARCH_API_KEY };
+  if (process.env.ELASTICSEARCH_USERNAME) {
+    return { username: process.env.ELASTICSEARCH_USERNAME, password: process.env.ELASTICSEARCH_PASSWORD || '' };
+  }
+  return undefined;
+}
+
+// For clusters served over https with a self-signed certificate, point
+// ELASTICSEARCH_CA_CERT at the CA file (Elasticsearch's http_ca.crt).
+function tlsOptions() {
+  const caPath = process.env.ELASTICSEARCH_CA_CERT;
+  return caPath ? { ca: fs.readFileSync(caPath), rejectUnauthorized: true } : undefined;
+}
 
 const client = new Client({
   node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200',
+  auth: authOptions(),
+  tls: tlsOptions(),
   requestTimeout: 10000,
   maxRetries: 2
 });
