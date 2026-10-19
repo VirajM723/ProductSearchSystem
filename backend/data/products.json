@@ -1,0 +1,402 @@
+[
+  {
+    "name": "Halden Over-Ear Headphones",
+    "description": "Closed-back wireless headphones with active noise cancelling, 40 hours of battery and soft protein-leather cushions that stay comfortable on long flights.",
+    "category": "Audio",
+    "brand": "Northline",
+    "price": 18990,
+    "tags": ["wireless", "noise cancelling", "bluetooth", "travel"],
+    "rating": 4.6,
+    "inStock": true
+  },
+  {
+    "name": "Pebble True Wireless Earbuds",
+    "description": "Small, light earbuds with a pocket-sized charging case. Six hours per charge, IPX4 sweat resistance and a decent call mic.",
+    "category": "Audio",
+    "brand": "Northline",
+    "price": 5490,
+    "tags": ["wireless", "earbuds", "bluetooth", "gym"],
+    "rating": 4.2,
+    "inStock": true
+  },
+  {
+    "name": "Studio Monitor Speakers (Pair)",
+    "description": "Five inch bookshelf monitors with a flat response, front bass ports and both RCA and optical inputs. Good for a desk or a small living room.",
+    "category": "Audio",
+    "brand": "Fermata",
+    "price": 24500,
+    "tags": ["speakers", "studio", "hifi"],
+    "rating": 4.7,
+    "inStock": true
+  },
+  {
+    "name": "Field Portable Bluetooth Speaker",
+    "description": "Rugged speaker wrapped in recycled fabric. Floats, survives drops and lasts about a weekend on one charge.",
+    "category": "Audio",
+    "brand": "Fermata",
+    "price": 6990,
+    "tags": ["bluetooth", "waterproof", "outdoor", "speakers"],
+    "rating": 4.4,
+    "inStock": false
+  },
+  {
+    "name": "Linen Button-Down Shirt",
+    "description": "Relaxed shirt in washed European linen. Gets softer every wash. Mother-of-pearl buttons and a slightly shorter hem so it works untucked.",
+    "category": "Apparel",
+    "brand": "Ostra",
+    "price": 3290,
+    "tags": ["linen", "summer", "shirt", "men"],
+    "rating": 4.5,
+    "inStock": true
+  },
+  {
+    "name": "Heavyweight Cotton Tee",
+    "description": "A 240 gsm organic cotton t-shirt with a boxy fit and a ribbed collar that keeps its shape.",
+    "category": "Apparel",
+    "brand": "Ostra",
+    "price": 1490,
+    "tags": ["cotton", "t-shirt", "basics", "organic"],
+    "rating": 4.3,
+    "inStock": true
+  },
+  {
+    "name": "Merino Crew Sweater",
+    "description": "Fine-gauge merino wool sweater. Warm without bulk, naturally odour resistant, and fine to wear straight against skin.",
+    "category": "Apparel",
+    "brand": "Kettle & Loom",
+    "price": 5890,
+    "tags": ["wool", "merino", "winter", "knitwear"],
+    "rating": 4.8,
+    "inStock": true
+  },
+  {
+    "name": "Waxed Canvas Chore Jacket",
+    "description": "Four pocket jacket in waxed cotton canvas that shrugs off light rain. Corduroy collar and brass snaps.",
+    "category": "Apparel",
+    "brand": "Kettle & Loom",
+    "price": 8990,
+    "tags": ["jacket", "canvas", "outerwear", "rain"],
+    "rating": 4.6,
+    "inStock": false
+  },
+  {
+    "name": "Everyday Canvas Sneakers",
+    "description": "Low-top sneakers with a vulcanised rubber sole and a cushioned cork insole. Comes in off-white and slate.",
+    "category": "Footwear",
+    "brand": "Pace",
+    "price": 3990,
+    "tags": ["sneakers", "canvas", "shoes", "casual"],
+    "rating": 4.1,
+    "inStock": true
+  },
+  {
+    "name": "Trail Running Shoes",
+    "description": "Grippy lugged outsole, rock plate and a breathable mesh upper. Built for muddy hill runs and long dirt trails.",
+    "category": "Footwear",
+    "brand": "Pace",
+    "price": 7490,
+    "tags": ["running", "trail", "shoes", "outdoor"],
+    "rating": 4.5,
+    "inStock": true
+  },
+  {
+    "name": "Leather Chelsea Boots",
+    "description": "Full-grain leather boots with elastic side panels and a Goodyear welted sole that can be resoled.",
+    "category": "Footwear",
+    "brand": "Ashby",
+    "price": 12990,
+    "tags": ["boots", "leather", "winter"],
+    "rating": 4.7,
+    "inStock": true
+  },
+  {
+    "name": "Pour-Over Coffee Kettle",
+    "description": "Gooseneck kettle with a thermometer in the lid. Holds 1 litre and works on gas, electric and induction.",
+    "category": "Kitchen",
+    "brand": "Mill Street",
+    "price": 3490,
+    "tags": ["coffee", "kettle", "pour over", "stainless steel"],
+    "rating": 4.6,
+    "inStock": true
+  },
+  {
+    "name": "Burr Coffee Grinder",
+    "description": "Conical steel burrs with 40 grind settings, from espresso fine to French press coarse. Quiet motor and a static-free catch cup.",
+    "category": "Kitchen",
+    "brand": "Mill Street",
+    "price": 9990,
+    "tags": ["coffee", "grinder", "espresso"],
+    "rating": 4.4,
+    "inStock": true
+  },
+  {
+    "name": "Cast Iron Skillet 26cm",
+    "description": "Pre-seasoned cast iron pan that goes from stove to oven to table. It will outlive you if you dry it properly.",
+    "category": "Kitchen",
+    "brand": "Hearth",
+    "price": 2790,
+    "tags": ["cast iron", "pan", "cookware"],
+    "rating": 4.8,
+    "inStock": true
+  },
+  {
+    "name": "Stoneware Dinner Set (12 pc)",
+    "description": "Four dinner plates, four side plates and four bowls in a speckled matte glaze. Dishwasher and microwave safe.",
+    "category": "Kitchen",
+    "brand": "Hearth",
+    "price": 6490,
+    "tags": ["stoneware", "plates", "dinnerware", "ceramic"],
+    "rating": 4.3,
+    "inStock": true
+  },
+  {
+    "name": "Chef's Knife 20cm",
+    "description": "Hand-sharpened Japanese steel blade with a walnut handle. Holds an edge well and is easy to hone at home.",
+    "category": "Kitchen",
+    "brand": "Mill Street",
+    "price": 5290,
+    "tags": ["knife", "japanese", "steel"],
+    "rating": 4.9,
+    "inStock": false
+  },
+  {
+    "name": "Arc Floor Lamp",
+    "description": "Brushed brass floor lamp with a marble base and a linen shade. Warm, soft light for reading corners.",
+    "category": "Home",
+    "brand": "Aalto Studio",
+    "price": 11490,
+    "tags": ["lamp", "lighting", "brass", "living room"],
+    "rating": 4.5,
+    "inStock": true
+  },
+  {
+    "name": "Ceramic Table Lamp",
+    "description": "Hand-thrown ceramic base in a sand glaze with a pleated cotton shade. Each one is slightly different.",
+    "category": "Home",
+    "brand": "Aalto Studio",
+    "price": 4990,
+    "tags": ["lamp", "lighting", "ceramic", "bedroom"],
+    "rating": 4.4,
+    "inStock": true
+  },
+  {
+    "name": "Wool Throw Blanket",
+    "description": "Woven lambswool throw in a simple herringbone pattern. 130 x 180 cm, big enough for the sofa.",
+    "category": "Home",
+    "brand": "Kettle & Loom",
+    "price": 4290,
+    "tags": ["blanket", "wool", "throw", "winter"],
+    "rating": 4.7,
+    "inStock": true
+  },
+  {
+    "name": "Linen Bedding Set (Queen)",
+    "description": "Stone-washed linen duvet cover and two pillowcases. Breathable in summer, cosy in winter.",
+    "category": "Home",
+    "brand": "Ostra",
+    "price": 7990,
+    "tags": ["bedding", "linen", "bedroom"],
+    "rating": 4.6,
+    "inStock": true
+  },
+  {
+    "name": "Terracotta Planter Set",
+    "description": "Three unglazed terracotta pots with saucers, 12, 16 and 20 cm. Drainage holes included.",
+    "category": "Home",
+    "brand": "Hearth",
+    "price": 1890,
+    "tags": ["plants", "planter", "terracotta", "garden"],
+    "rating": 4.2,
+    "inStock": true
+  },
+  {
+    "name": "Mechanical Keyboard 75%",
+    "description": "Compact keyboard with hot-swap switches, a gasket mount and PBT keycaps. Works over USB-C or Bluetooth.",
+    "category": "Electronics",
+    "brand": "Keystone",
+    "price": 8990,
+    "tags": ["keyboard", "mechanical", "wireless", "bluetooth", "desk"],
+    "rating": 4.6,
+    "inStock": true
+  },
+  {
+    "name": "Wireless Ergonomic Mouse",
+    "description": "Sculpted mouse with a thumb rest, silent clicks and a battery that lasts about three months.",
+    "category": "Electronics",
+    "brand": "Keystone",
+    "price": 3290,
+    "tags": ["mouse", "wireless", "ergonomic", "desk"],
+    "rating": 4.3,
+    "inStock": true
+  },
+  {
+    "name": "27\" 4K Monitor",
+    "description": "IPS panel with 99% sRGB coverage, USB-C power delivery at 65W and a height adjustable stand.",
+    "category": "Electronics",
+    "brand": "Lumen",
+    "price": 32990,
+    "tags": ["monitor", "4k", "usb-c", "desk"],
+    "rating": 4.5,
+    "inStock": true
+  },
+  {
+    "name": "Smart Watch Series 3",
+    "description": "Always-on AMOLED display, GPS, heart rate and sleep tracking. Around six days of battery in normal use.",
+    "category": "Electronics",
+    "brand": "Lumen",
+    "price": 15990,
+    "tags": ["watch", "fitness", "gps", "wearable"],
+    "rating": 4.0,
+    "inStock": true
+  },
+  {
+    "name": "Portable Power Bank 20000mAh",
+    "description": "Charges a laptop over USB-C at 45W and two phones at the same time. Fits in a jacket pocket, just.",
+    "category": "Electronics",
+    "brand": "Lumen",
+    "price": 2990,
+    "tags": ["power bank", "usb-c", "charger", "travel"],
+    "rating": 4.4,
+    "inStock": false
+  },
+  {
+    "name": "Dot Grid Notebook A5",
+    "description": "192 pages of 100 gsm paper that handles fountain pens without bleeding. Lay-flat binding and a ribbon marker.",
+    "category": "Stationery",
+    "brand": "Paperhaus",
+    "price": 690,
+    "tags": ["notebook", "journal", "paper"],
+    "rating": 4.8,
+    "inStock": true
+  },
+  {
+    "name": "Brass Fountain Pen",
+    "description": "Solid brass pen that develops a patina over time. Steel fine nib, takes standard international cartridges.",
+    "category": "Stationery",
+    "brand": "Paperhaus",
+    "price": 2490,
+    "tags": ["pen", "fountain pen", "brass", "writing"],
+    "rating": 4.6,
+    "inStock": true
+  },
+  {
+    "name": "Leather Desk Organiser",
+    "description": "Vegetable-tanned leather tray for keys, pens and cables. Darkens nicely with use.",
+    "category": "Stationery",
+    "brand": "Ashby",
+    "price": 1990,
+    "tags": ["leather", "desk", "organiser"],
+    "rating": 4.1,
+    "inStock": true
+  },
+  {
+    "name": "Ultralight Daypack 20L",
+    "description": "Ripstop nylon backpack that weighs 380 g. Padded laptop sleeve, side bottle pockets and a sternum strap.",
+    "category": "Outdoors",
+    "brand": "Ridgeway",
+    "price": 4590,
+    "tags": ["backpack", "hiking", "travel", "bag"],
+    "rating": 4.5,
+    "inStock": true
+  },
+  {
+    "name": "Insulated Water Bottle 750ml",
+    "description": "Double-walled steel bottle that keeps water cold for 24 hours. Leak-proof lid with a carry loop.",
+    "category": "Outdoors",
+    "brand": "Ridgeway",
+    "price": 1590,
+    "tags": ["bottle", "hiking", "stainless steel", "gym"],
+    "rating": 4.7,
+    "inStock": true
+  },
+  {
+    "name": "Two-Person Camping Tent",
+    "description": "Freestanding tent with two doors and two vestibules. Packs down to the size of a loaf of bread.",
+    "category": "Outdoors",
+    "brand": "Ridgeway",
+    "price": 14990,
+    "tags": ["tent", "camping", "hiking", "outdoor"],
+    "rating": 4.4,
+    "inStock": true
+  },
+  {
+    "name": "Yoga Mat 5mm",
+    "description": "Natural rubber mat with a grippy top layer and alignment lines. Heavy enough to stay put.",
+    "category": "Fitness",
+    "brand": "Pace",
+    "price": 2790,
+    "tags": ["yoga", "mat", "gym", "fitness"],
+    "rating": 4.3,
+    "inStock": true
+  },
+  {
+    "name": "Adjustable Dumbbells (Pair)",
+    "description": "Dial from 2.5 kg to 24 kg in a few seconds. Replaces a whole rack in a corner of the room.",
+    "category": "Fitness",
+    "brand": "Pace",
+    "price": 21990,
+    "tags": ["dumbbells", "weights", "gym", "strength"],
+    "rating": 4.6,
+    "inStock": false
+  },
+  {
+    "name": "The Quiet Kitchen (Cookbook)",
+    "description": "120 weeknight recipes built around a handful of pantry staples. Hardback, lies flat on the counter.",
+    "category": "Books",
+    "brand": "Fold Press",
+    "price": 1299,
+    "tags": ["cookbook", "recipes", "hardcover"],
+    "rating": 4.5,
+    "inStock": true
+  },
+  {
+    "name": "Small Spaces: A Design Handbook",
+    "description": "Practical layouts, storage ideas and lighting advice for flats under 600 square feet. Lots of floor plans.",
+    "category": "Books",
+    "brand": "Fold Press",
+    "price": 1899,
+    "tags": ["design", "interiors", "home", "hardcover"],
+    "rating": 4.2,
+    "inStock": true
+  },
+  {
+    "name": "Natural Soy Candle",
+    "description": "Hand-poured soy wax candle with cedar, vetiver and a little smoke. About 50 hours of burn time.",
+    "category": "Home",
+    "brand": "Aalto Studio",
+    "price": 1290,
+    "tags": ["candle", "fragrance", "gift"],
+    "rating": 4.4,
+    "inStock": true
+  },
+  {
+    "name": "Everyday Face Moisturiser",
+    "description": "Light, fragrance-free moisturiser with niacinamide and ceramides. Sinks in fast and works under sunscreen.",
+    "category": "Beauty",
+    "brand": "Sora",
+    "price": 890,
+    "tags": ["skincare", "moisturiser", "fragrance free"],
+    "rating": 4.3,
+    "inStock": true
+  },
+  {
+    "name": "Mineral Sunscreen SPF 50",
+    "description": "Zinc based sunscreen with no white cast on most skin tones. Water resistant for 40 minutes.",
+    "category": "Beauty",
+    "brand": "Sora",
+    "price": 749,
+    "tags": ["skincare", "sunscreen", "spf"],
+    "rating": 4.1,
+    "inStock": true
+  },
+  {
+    "name": "Bamboo Bath Towel Set",
+    "description": "Two bath towels and two hand towels in a soft bamboo-cotton blend. Quick drying and very absorbent.",
+    "category": "Home",
+    "brand": "Ostra",
+    "price": 2490,
+    "tags": ["towels", "bath", "bamboo"],
+    "rating": 4.5,
+    "inStock": true
+  }
+]
