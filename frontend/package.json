@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "e2e": "playwright test"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +26,7 @@
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
+    "@playwright/test": "^1.56.1",
     "typescript": "~5.2.2"
   },
   "engines": {
