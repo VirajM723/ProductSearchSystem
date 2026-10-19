@@ -37,10 +37,11 @@ router.post('/login', loginLimiter, (req, res) => {
   res.json({ username: config.username });
 });
 
+// Answers 200 either way so visitors don't get an error in the console;
+// username is null when there's no valid session.
 router.get('/me', (req, res) => {
   const session = readSession(req);
-  if (!session) return res.status(401).json({ error: 'Not signed in' });
-  res.json(session);
+  res.json({ username: session?.username ?? null });
 });
 
 router.post('/logout', (req, res) => {

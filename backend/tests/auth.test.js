@@ -39,7 +39,8 @@ describe('admin login', () => {
   it('reports who is signed in', async () => {
     const me = await api().get('/api/auth/me').expect(200);
     assert.equal(me.body.username, ADMIN.username);
-    await anon().get('/api/auth/me').expect(401);
+    const visitor = await anon().get('/api/auth/me').expect(200);
+    assert.equal(visitor.body.username, null);
   });
 
   it('allows writes once signed in', async () => {
@@ -58,9 +59,9 @@ describe('admin login', () => {
 
   it('signs out', async () => {
     const agent = await signIn();
-    await agent.get('/api/auth/me').expect(200);
+    assert.equal((await agent.get('/api/auth/me').expect(200)).body.username, 'admin');
     await agent.post('/api/auth/logout').expect(200);
-    await agent.get('/api/auth/me').expect(401);
+    assert.equal((await agent.get('/api/auth/me').expect(200)).body.username, null);
     await agent.post('/api/products').send(validProduct()).expect(401);
   });
 
@@ -70,7 +71,7 @@ describe('admin login', () => {
     const original = process.env.ADMIN_PASSWORD_HASH;
     process.env.ADMIN_PASSWORD_HASH = hashPassword('a-brand-new-password');
     try {
-      await agent.get('/api/auth/me').expect(401);
+      assert.equal((await agent.get('/api/auth/me').expect(200)).body.username, null);
     } finally {
       process.env.ADMIN_PASSWORD_HASH = original;
     }
