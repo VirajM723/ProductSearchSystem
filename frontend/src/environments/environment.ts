@@ -1,4 +1,5 @@
+// The dev server proxies /api to the backend (see proxy.conf.json).
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: '/api'
 };
