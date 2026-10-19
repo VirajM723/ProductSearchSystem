@@ -1,19 +1,48 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const productRoutes = require('./routes/products');
+const authRoutes = require('./routes/auth');
 const { ping } = require('./config/elasticsearch');
 
 const app = express();
+const isProduction = process.env.NODE_ENV === 'production';
 
 const allowedOrigins = (process.env.CORS_ORIGIN || '')
   .split(',')
   .map((o) => o.trim())
   .filter(Boolean);
 
+// Number of reverse proxies in front of the API (Caddy in production), so
+// rate limits see the visitor's IP instead of the proxy's.
+app.set('trust proxy', Number(process.env.TRUST_PROXY ?? (isProduction ? 1 : 0)));
 app.disable('x-powered-by');
-app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : {}));
+app.use(helmet());
+
+// In production the frontend and API share a domain, so cross-origin calls
+// are refused unless CORS_ORIGIN lists them. In development anything goes.
+if (allowedOrigins.length) {
+  app.use(cors({ origin: allowedOrigins, credentials: true }));
+} else if (!isProduction) {
+  app.use(cors());
+}
+
 app.use(express.json({ limit: '100kb' }));
+app.use(cookieParser());
+
+app.use(
+  '/api',
+  rateLimit({
+    windowMs: 60 * 1000,
+    limit: Number(process.env.API_RATE_LIMIT) || 300,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: { error: 'Too many requests, slow down a little' }
+  })
+);
 
 if (process.env.NODE_ENV !== 'test') {
   app.use((req, res, next) => {
@@ -39,6 +68,7 @@ app.get('/api/health', async (req, res) => {
   });
 });
 
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
 app.use((req, res) => {
