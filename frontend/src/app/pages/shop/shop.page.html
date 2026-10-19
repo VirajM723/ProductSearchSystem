@@ -1,0 +1,161 @@
+<div class="shell">
+  @if (isBrowsing()) {
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Autumn edit</p>
+        <h1 class="display">Everyday things,<br />made to last.</h1>
+      </div>
+      <p class="lede">
+        A small range of kitchenware, clothing, audio and home goods from makers we like.
+        Search the whole catalogue or start with a category.
+      </p>
+    </section>
+
+    @if (result(); as r) {
+      <nav class="categories" aria-label="Categories">
+        @for (c of r.facets.categories; track c.value) {
+          <a [routerLink]="[]" [queryParams]="{ category: c.value }">
+            {{ c.value }}
+            <span>{{ c.count }}</span>
+          </a>
+        }
+      </nav>
+    }
+  } @else {
+    <section class="heading">
+      @if (params().q) {
+        <p class="eyebrow">Search</p>
+        <h1 class="display">“{{ params().q }}”</h1>
+      } @else if (params().category?.length === 1 && !params().brand?.length) {
+        <p class="eyebrow">Category</p>
+        <h1 class="display">{{ params().category![0] }}</h1>
+      } @else {
+        <p class="eyebrow">Shop</p>
+        <h1 class="display">Filtered products</h1>
+      }
+    </section>
+  }
+
+  <div class="toolbar">
+    <button type="button" class="btn btn-outline btn-sm filters-toggle" (click)="filtersOpen.set(true)">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M6 10h8M8.5 14h3"/></svg>
+      Filters
+      @if (chips().length) {
+        <span class="filter-count">{{ chips().length }}</span>
+      }
+    </button>
+    <p class="count" aria-live="polite">
+      @if (result(); as r) {
+        {{ rangeLabel() }}
+      }
+    </p>
+    <label class="sort">
+      <span>Sort</span>
+      <select class="select" [value]="activeSort()" (change)="setSort($any($event.target).value)">
+        @for (key of sortKeys; track key) {
+          @if (key !== 'relevance' || params().q) {
+            <option [value]="key">{{ sortLabels[key] }}</option>
+          }
+        }
+      </select>
+    </label>
+  </div>
+
+  @if (chips().length) {
+    <div class="chips">
+      @for (chip of chips(); track chip.label) {
+        <button type="button" class="chip" (click)="update(chip.remove)" [attr.aria-label]="'Remove filter ' + chip.label">
+          {{ chip.label }}
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 6 8 8M14 6l-8 8"/></svg>
+        </button>
+      }
+      <button type="button" class="clear-all" (click)="clearAll()">Clear all</button>
+    </div>
+  }
+
+  <div class="layout">
+    <aside class="sidebar" [class.open]="filtersOpen()" aria-label="Filters">
+      <div class="sidebar-head">
+        <h2>Filters</h2>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="filtersOpen.set(false)">Done</button>
+      </div>
+      <app-filters [params]="params()" [result]="result()" (changed)="update($event)" />
+    </aside>
+    @if (filtersOpen()) {
+      <div class="scrim" (click)="filtersOpen.set(false)"></div>
+    }
+
+    <section class="results" [class.busy]="loading() && result()">
+      @if (error(); as message) {
+        <div class="state">
+          <h2>We couldn't load products</h2>
+          <p>{{ message }}</p>
+          <button type="button" class="btn btn-primary" (click)="retry()">Try again</button>
+        </div>
+      } @else if (!result()) {
+        <div class="grid" aria-busy="true">
+          @for (s of skeletons; track $index) {
+            <div class="skeleton-card">
+              <div class="skeleton art"></div>
+              <div class="skeleton line short"></div>
+              <div class="skeleton line"></div>
+            </div>
+          }
+        </div>
+      } @else if (result()!.total === 0) {
+        <div class="state">
+          <h2>Nothing matched{{ params().q ? ' “' + params().q + '”' : '' }}</h2>
+          @if (result()!.didYouMean; as suggestion) {
+            <p>
+              Did you mean
+              <a [routerLink]="[]" [queryParams]="{ q: suggestion }" queryParamsHandling="merge">{{ suggestion }}</a>?
+            </p>
+          } @else {
+            <p>Try a different word, or loosen the filters.</p>
+          }
+          <div class="state-actions">
+            @if (chips().length) {
+              <button type="button" class="btn btn-outline" (click)="clearAll()">Clear filters</button>
+            }
+            <a routerLink="/" class="btn btn-primary">Browse everything</a>
+          </div>
+        </div>
+      } @else {
+        <div class="grid">
+          @for (product of result()!.items; track product._id) {
+            <app-product-card [product]="product" (add)="addToBag($event)" />
+          }
+        </div>
+
+        @if (pages().length) {
+          <nav class="pagination" aria-label="Pages">
+            <button type="button" class="btn btn-ghost btn-sm" [disabled]="result()!.page <= 1" (click)="goToPage(result()!.page - 1)">
+              Previous
+            </button>
+            @for (n of pages(); track $index) {
+              @if (n === null) {
+                <span class="gap">…</span>
+              } @else {
+                <button
+                  type="button"
+                  class="page"
+                  [class.current]="n === result()!.page"
+                  [attr.aria-current]="n === result()!.page ? 'page' : null"
+                  (click)="goToPage(n)">
+                  {{ n }}
+                </button>
+              }
+            }
+            <button type="button" class="btn btn-ghost btn-sm" [disabled]="result()!.page >= result()!.pages" (click)="goToPage(result()!.page + 1)">
+              Next
+            </button>
+          </nav>
+        }
+
+        @if (result()!.source === 'database') {
+          <p class="degraded">Search is running in basic mode at the moment, so spelling corrections are off.</p>
+        }
+      }
+    </section>
+  </div>
+</div>
