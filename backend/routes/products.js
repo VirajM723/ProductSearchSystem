@@ -137,7 +137,9 @@ async function update(req, res, replace) {
   if (replace) {
     // PUT replaces the product, so anything left out goes back to its default.
     for (const key of EDITABLE) {
-      if (!(key in changes)) product.set(key, undefined);
+      if (key in changes) continue;
+      const fallback = Product.schema.path(key).defaultValue;
+      product.set(key, typeof fallback === 'function' ? fallback() : fallback);
     }
   }
   product.set(changes);
