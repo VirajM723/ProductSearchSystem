@@ -10,6 +10,20 @@ const searchIndex = require('../services/elasticsearchService');
 
 const products = require(path.join(__dirname, '..', 'data', 'products.json'));
 
+function interleave(list) {
+  const groups = new Map();
+  for (const item of list) {
+    if (!groups.has(item.category)) groups.set(item.category, []);
+    groups.get(item.category).push(item);
+  }
+  const queues = [...groups.values()];
+  const out = [];
+  while (out.length < list.length) {
+    for (const queue of queues) if (queue.length) out.push(queue.shift());
+  }
+  return out;
+}
+
 async function seed() {
   await connectDB(process.env.MONGODB_URI, 3);
   const fresh = process.argv.includes('--fresh');
@@ -19,9 +33,10 @@ async function seed() {
     console.log(`There are already ${existing} products. Run with --fresh to replace them.`);
   } else {
     if (fresh) await Product.deleteMany({});
-    // Spread the dates out a bit so "newest first" has something to sort by.
+    // Spread the dates out so "newest first" has something to sort by, and
+    // deal categories out round-robin so the first page isn't all one thing.
     const now = Date.now();
-    const docs = products.map((p, i) => ({
+    const docs = interleave(products).map((p, i) => ({
       ...p,
       createdAt: new Date(now - i * 36e5),
       updatedAt: new Date(now - i * 36e5)
