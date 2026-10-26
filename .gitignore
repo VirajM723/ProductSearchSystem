@@ -23,3 +23,6 @@ backend/.env
 # Test output
 frontend/test-results/
 frontend/playwright-report/
+
+#Docs
+Project Design.pdf
